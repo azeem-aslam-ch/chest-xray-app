@@ -96,8 +96,6 @@ streamlit run app.py
 - ROC-AUC per class ≈ **0.99–1.00** on the validation set  
 - Include your figures in `assets/` and reference them here:
 
-![ROC](RoC.png)
-
 <p align="center">
   <a href="RoC.png">
     <img src="RoC.png" width="700" alt="ROC curve">
