@@ -39,10 +39,7 @@ An interactive **Streamlit** app that uses a deep-learning model to classify che
 ├─ classification_model.pth    # Trained PyTorch weights (use Git LFS or download at runtime)
 ├─ requirements.txt            # Python deps
 ├─ README.md                   # This file
-├─ src/                        # (optional) helper code
-├─ assets/                     # screenshots/figures (e.g., roc.png)
-└─ .streamlit/                 # (optional) Streamlit config
-   └─ config.toml
+
 ```
 
 ---
@@ -55,7 +52,7 @@ An interactive **Streamlit** app that uses a deep-learning model to classify che
 
 ### 2) Clone
 ```bash
-git clone https://github.com/your-username/chest-xray-app.git
+git clone https://github.com/azeem-aslam-ch/chest-xray-app
 cd chest-xray-app
 ```
 
@@ -66,7 +63,7 @@ pip install -r requirements.txt
 
 ### 4) Model weights
 Place `classification_model.pth` in the project root.  
-*Alternatively*, set an environment variable `MODEL_URL` to auto-download at startup (see **Cloud Deploy**).
+*Alternatively*, set an environment variable `https://drive.google.com/file/d/1LRP3o3TBXXp-_xIPEzLt8dArt1YCcTRs/view?usp=drive_link` to auto-download at startup (see **Cloud Deploy**).
 
 ### 5) Run
 ```bash
@@ -82,7 +79,7 @@ streamlit run app.py
 3. If you *don’t* commit the model file, set a secret to download it:
    - In your app → **Settings → Secrets** → add:
      ```yaml
-     MODEL_URL: "https://your-storage/classification_model.pth"
+     https://drive.google.com/file/d/1LRP3o3TBXXp-_xIPEzLt8dArt1YCcTRs/view?usp=drive_link"
      ```
 4. In `app.py`, load `MODEL_URL` and download/cache once.
 
@@ -121,14 +118,6 @@ headless = true
 enableCORS = false
 enableXsrfProtection = true
 ```
-
----
-
-## 🗺️ Roadmap
-- Add external test evaluation
-- Add batch upload
-- Add DICOM support and windowing
-- Export PDF report
 
 ---
 
