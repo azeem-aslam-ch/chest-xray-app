@@ -98,6 +98,12 @@ streamlit run app.py
 
 ![ROC](RoC.png)
 
+<p align="center">
+  <a href="RoC.png">
+    <img src="RoC.png" width="700" alt="ROC curve">
+  </a>
+</p>
+
 
 > Validate on a **patient-level** hold-out or external test set. Also check precision-recall, confusion matrix, and calibration.
 
