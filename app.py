@@ -121,7 +121,6 @@ if model and uploaded_file is not None:
             # Run a single forward pass
             outputs = model(input_tensor)
             
-            # --- THE FIX IS HERE ---
             # 1. Get probabilities for the results table, detaching the tensor first.
             probabilities = torch.sigmoid(outputs).cpu().detach().numpy()[0]
 
@@ -132,8 +131,9 @@ if model and uploaded_file is not None:
             # Overlay the heatmap
             result = overlay_mask(original_image, to_pil_image(activation_map, mode='F'), alpha=opacity)
             
-            # Clear hooks after use to prevent memory leaks
-            cam_extractor.remove_hooks()
+            # --- THE FIX IS HERE ---
+            # The line below has been removed as it's no longer needed and causes an error.
+            # cam_extractor.remove_hooks()
 
         # --- Display Classification Results ---
         results_df = pd.DataFrame({'Condition': CLASSES, 'Confidence': probabilities})
