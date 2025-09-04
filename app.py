@@ -149,9 +149,9 @@ if model and uploaded_file is not None:
         # --- Display Visual Comparison ---
         col1, col2 = st.columns(2)
         with col1:
-            st.image(original_image, caption='Original Uploaded Image', use_column_width=True)
+            st.image(original_image, caption='Original Uploaded Image', use_container_width=True)
         with col2:
-            st.image(result, caption=f'Annotated Image (Heatmap for "{class_to_visualize}")', use_column_width=True)
+            st.image(result, caption=f'Annotated Image (Heatmap for "{class_to_visualize}")', use_container_width=True)
 
 elif not model:
     st.warning("Please place the `classification_model.pth` file in the application's root directory.")
