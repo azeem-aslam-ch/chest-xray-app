@@ -128,12 +128,12 @@ if model and uploaded_file is not None:
             class_idx = CLASSES.index(class_to_visualize)
             activation_map = cam_extractor(class_idx, outputs)[0].cpu()
             
-            # Overlay the heatmap
-            result = overlay_mask(original_image, to_pil_image(activation_map, mode='F'), alpha=opacity)
-            
             # --- THE FIX IS HERE ---
-            # The line below has been removed as it's no longer needed and causes an error.
-            # cam_extractor.remove_hooks()
+            # Clamp the opacity to be slightly less than 1.0 to avoid the ValueError
+            safe_opacity = min(opacity, 0.999)
+            
+            # Overlay the heatmap
+            result = overlay_mask(original_image, to_pil_image(activation_map, mode='F'), alpha=safe_opacity)
 
         # --- Display Classification Results ---
         results_df = pd.DataFrame({'Condition': CLASSES, 'Confidence': probabilities})
