@@ -115,40 +115,38 @@ if model and uploaded_file is not None:
     else:
         st.header("Analysis Results")
         
-        # --- Run Inference ---
-        input_tensor = image_tensor.unsqueeze(0).to(DEVICE)
-        with st.spinner("Analyzing the image..."):
-            with torch.no_grad():
-                outputs = model(input_tensor)
-                probabilities = torch.sigmoid(outputs).cpu().numpy()[0]
+        # ======================================================================
+        # --- FIX: COMBINED INFERENCE AND GRAD-CAM LOGIC ---
+        # We run the forward pass only ONCE with gradients enabled.
+        # ======================================================================
+        with st.spinner("Analyzing the image and generating heatmap..."):
+            input_tensor = image_tensor.unsqueeze(0).to(DEVICE)
+            
+            # Run a single forward pass
+            outputs = model(input_tensor)
+            
+            # 1. Get probabilities for the results table
+            probabilities = torch.sigmoid(outputs).cpu().numpy()[0]
 
-            # Create a DataFrame for the results
-            results_df = pd.DataFrame({
-                'Condition': CLASSES,
-                'Confidence': probabilities
-            })
-            results_df = results_df.sort_values(by='Confidence', ascending=False).reset_index(drop=True)
-        
+            # 2. Get the heatmap for the visualization
+            class_idx = CLASSES.index(class_to_visualize)
+            activation_map = cam_extractor(class_idx, outputs)[0].cpu()
+            
+            # Overlay the heatmap
+            result = overlay_mask(original_image, to_pil_image(activation_map, mode='F'), alpha=opacity)
+
+        # --- Display Classification Results ---
+        results_df = pd.DataFrame({'Condition': CLASSES, 'Confidence': probabilities})
+        results_df = results_df.sort_values(by='Confidence', ascending=False).reset_index(drop=True)
         top_prediction = results_df.iloc[0]
+        
         st.success(f"**Top Prediction:** {top_prediction['Condition']} with a confidence of {top_prediction['Confidence']:.2%}")
-        st.write("The model has analyzed the image and provides the following confidence scores:")
+        st.write("The model provides the following confidence scores:")
         st.dataframe(results_df.style.format({'Confidence': '{:.2%}'}), use_container_width=True)
 
         st.header("Visual Explanation (Grad-CAM)")
         
-        # --- Generate and Display Grad-CAM ---
-        with st.spinner("Generating heatmap..."):
-            # Get the index of the class to visualize
-            class_idx = CLASSES.index(class_to_visualize)
-            
-            # We need to re-run the forward pass *without* no_grad for the hook to work
-            model_output = model(input_tensor)
-            activation_map = cam_extractor(class_idx, model_output)[0].cpu()
-
-            # Overlay the heatmap
-            result = overlay_mask(original_image, to_pil_image(activation_map, mode='F'), alpha=opacity)
-        
-        # Display side-by-side comparison
+        # --- Display Visual Comparison ---
         col1, col2 = st.columns(2)
         with col1:
             st.image(original_image, caption='Original Uploaded Image', use_column_width=True)
