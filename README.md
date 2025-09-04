@@ -1,4 +1,4 @@
-# 🩺 Chest X-Ray Diagnostic Assistant (OmniDent.ai — Testing Build)
+# 🩺 Chest X-Ray Diagnostic Assistant (Testing Build)
 
 An interactive **Streamlit** app that uses a deep-learning model to classify chest X-ray images and show a **Grad-CAM** heatmap as a visual explanation.
 
@@ -138,4 +138,4 @@ Choose a license (e.g., **MIT**) and place it in `LICENSE`.
 ---
 
 ## 📣 Repo Description (short)
-Streamlit app for classifying chest X-rays (Normal, COVID, Lung Opacity, Viral Pneumonia) with Grad-CAM explanations. OmniDent.ai testing build. One-click deploy to Streamlit Cloud.
+Streamlit app for classifying chest X-rays (Normal, COVID, Lung Opacity, Viral Pneumonia) with Grad-CAM explanations. Testing build. One-click deploy to Streamlit Cloud.
