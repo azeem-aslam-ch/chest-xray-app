@@ -21,7 +21,7 @@ Select which class you want to see the heatmap for via a dropdown menu.
 
 Error Handling: Gracefully handles invalid or corrupted file uploads.
 
-🛠️ Technology Stack
+## 🛠️ Technology Stack
 Framework: Streamlit
 
 Deep Learning: PyTorch, Torchvision
@@ -32,7 +32,7 @@ Image Processing: Albumentations, OpenCV, Pillow (PIL)
 
 Data Handling: Pandas, NumPy
 
-⚙️ Setup and Installation (Running Locally)
+## ⚙️ Setup and Installation (Running Locally)
 To run this application on your local machine, please follow these steps.
 
 1. Prerequisites
@@ -67,7 +67,7 @@ streamlit run app.py
 
 Your web browser will open a new tab with the application running locally!
 
-☁️ Deployment
+## ☁️ Deployment
 This application is designed to be deployed on Streamlit Cloud.
 
 Push the project (including app.py, requirements.txt, and the model file using Git LFS) to a public GitHub repository.
