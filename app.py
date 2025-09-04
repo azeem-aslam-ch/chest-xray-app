@@ -17,14 +17,14 @@ from torchvision.transforms.functional import to_pil_image
 # 1. Create a GitHub Repository:
 #    - Create a new public repository on GitHub.
 #    - Add these three files to it: `app.py`, `requirements.txt`, `classification_model.pth`.
-#    - Note: For larger models, you might need to use Git LFS (Large File Storage).
+#    - Note: For larger models, we need to use Git LFS (Large File Storage).
 #
 # 2. Sign up for Streamlit Cloud:
-#    - Go to https://streamlit.io/cloud and sign up using your GitHub account.
+#    - Go to https://streamlit.io/cloud and sign up.
 #
 # 3. Deploy the App:
-#    - From your Streamlit Cloud dashboard, click "New app".
-#    - Choose the GitHub repository you just created.
+#    - From Streamlit Cloud dashboard, click "New app".
+#    - Choose the GitHub repository we just created.
 #    - The branch should be 'main' and the main file path should be 'app.py'.
 #    - Click "Deploy!". Streamlit will handle the rest.
 # ==============================================================================
@@ -88,8 +88,8 @@ def transform_image(image_bytes):
 # --- Main App Interface ---
 st.title("🩺 Chest X-Ray Diagnostic Assistant")
 st.markdown("""
-Welcome to the AI-powered diagnostic tool. Upload a chest X-ray to get a classification and see a visual explanation of the result.
-**Disclaimer:** This tool is for informational purposes only and not a substitute for professional medical advice.
+Welcome to the AI-powered diagnostic tool (testing build for the OmniDent.ai task). Upload a chest X-ray to get a classification and see a visual explanation of the result.
+** Disclaimer: This app is for testing and educational purposes only as part of the OmniDent.ai assessment. It is not a medical device and is not a substitute for professional medical advice, diagnosis, or treatment.
 """)
 
 # --- Sidebar ---
