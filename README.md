@@ -96,8 +96,7 @@ streamlit run app.py
 - ROC-AUC per class ≈ **0.99–1.00** on the validation set  
 - Include your figures in `assets/` and reference them here:
 
-![ROC](<img width="1001" height="855" alt="image" src="https://github.com/user-attachments/assets/79e33bfd-8800-4fd7-ba9c-76b6ee65261d" />
-)
+![ROC](assets/roc.png)
 
 > Validate on a **patient-level** hold-out or external test set. Also check precision-recall, confusion matrix, and calibration.
 
