@@ -1,11 +1,12 @@
-🩺 Chest X-Ray Diagnostic Assistant
+
+# 🩺 Chest X-Ray Diagnostic Assistant
 
 
 An interactive web application built with Streamlit that uses a deep learning model to classify chest X-ray images into four categories: Normal, COVID, Lung Opacity, and Viral Pneumonia. The app also provides visual explanations using Grad-CAM to highlight areas of interest that influenced the model's prediction.
 
 
 
-🌟 Key Features
+## 🌟 Key Features
 Image Classification: Upload a chest X-ray (.png, .jpg, .jpeg) and get a prediction with confidence scores.
 
 Visual Explanation (Grad-CAM): See a heatmap overlay on the X-ray that shows where the model is "looking" to make its decision.
