@@ -115,18 +115,15 @@ if model and uploaded_file is not None:
     else:
         st.header("Analysis Results")
         
-        # ======================================================================
-        # --- FIX: COMBINED INFERENCE AND GRAD-CAM LOGIC ---
-        # We run the forward pass only ONCE with gradients enabled.
-        # ======================================================================
         with st.spinner("Analyzing the image and generating heatmap..."):
             input_tensor = image_tensor.unsqueeze(0).to(DEVICE)
             
             # Run a single forward pass
             outputs = model(input_tensor)
             
-            # 1. Get probabilities for the results table
-            probabilities = torch.sigmoid(outputs).cpu().numpy()[0]
+            # --- THE FIX IS HERE ---
+            # 1. Get probabilities for the results table, detaching the tensor first.
+            probabilities = torch.sigmoid(outputs).cpu().detach().numpy()[0]
 
             # 2. Get the heatmap for the visualization
             class_idx = CLASSES.index(class_to_visualize)
@@ -134,6 +131,9 @@ if model and uploaded_file is not None:
             
             # Overlay the heatmap
             result = overlay_mask(original_image, to_pil_image(activation_map, mode='F'), alpha=opacity)
+            
+            # Clear hooks after use to prevent memory leaks
+            cam_extractor.remove_hooks()
 
         # --- Display Classification Results ---
         results_df = pd.DataFrame({'Condition': CLASSES, 'Confidence': probabilities})
