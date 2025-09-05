@@ -1,6 +1,6 @@
 # 🩺 Chest X-Ray Diagnostic Assistant (Testing Build)
 
-An interactive **Streamlit** app that uses a deep-learning model to classify chest X-ray images and show a **Grad-CAM** heatmap as a visual explanation.
+This is an interactive **Streamlit** app that uses a deep-learning model to classify chest X-ray images and show a **Grad-CAM** heatmap as a visual explanation.
 
 > **Disclaimer:** This app is for **testing and educational** purposes only (OmniDent.ai task). It is **not** a medical device and is **not** a substitute for professional medical advice, diagnosis, or treatment.
 
