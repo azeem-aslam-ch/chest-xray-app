@@ -66,8 +66,9 @@ pip install -r requirements.txt
 ```
 
 ### 4) Model weights
-Place `classification_model.pth` in the project root.  
-*Alternatively*, set an environment/secret **`MODEL_URL`** that points to a direct download for the weights (see **Cloud Deploy**).
+    ```yaml
+     MODEL_URL: "https://drive.google.com/uc?id=<FILE_ID>&export=download"
+     ```
 
 ### 5) Run
 ```bash
