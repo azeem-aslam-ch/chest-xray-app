@@ -1,87 +1,141 @@
-🩺 Chest X-Ray Diagnostic Assistant
+# 🩺 Chest X-Ray Diagnostic Assistant (Testing Build)
 
+An interactive **Streamlit** app that uses a deep-learning model to classify chest X-ray images and show a **Grad-CAM** heatmap as a visual explanation.
 
-An interactive web application built with Streamlit that uses a deep learning model to classify chest X-ray images into four categories: Normal, COVID, Lung Opacity, and Viral Pneumonia. The app also provides visual explanations using Grad-CAM to highlight areas of interest that influenced the model's prediction.
+> **Disclaimer:** This app is for **testing and educational** purposes only (OmniDent.ai task). It is **not** a medical device and is **not** a substitute for professional medical advice, diagnosis, or treatment.
 
+---
 
+## ✨ Features
+- **Multi-Class Classification:** `Normal`, `COVID`, `Lung Opacity`, `Viral Pneumonia`
+- **Visual Explanations:** Grad-CAM heatmaps highlight important regions
+- **Side-by-Side View:** Original image vs. annotated heatmap
+- **Interactive UI:** Built with Streamlit
+- **Cloud-Ready:** Easy deploy to Streamlit Community Cloud
 
-🌟 Key Features
-Image Classification: Upload a chest X-ray (.png, .jpg, .jpeg) and get a prediction with confidence scores.
+---
 
-Visual Explanation (Grad-CAM): See a heatmap overlay on the X-ray that shows where the model is "looking" to make its decision.
+## 🧠 Model
+- **Architecture:** DenseNet-121  
+- **Pre-trained on:** ImageNet  
+- **Task:** Multi-class classification (4 classes)
 
-Side-by-Side Comparison: Compare the original image with the annotated heatmap image.
+---
 
-Interactive Controls:
+## 🏥 Dataset
+- **Source:** *COVID-19 Radiography Database* (Kaggle)  
+- **Classes:** `Normal`, `COVID`, `Lung_Opacity`, `Viral Pneumonia`  
+- **Format:** `.png` images in class folders  
+- **Augmentations:** Horizontal flip, rotation, normalization
 
-Adjust the opacity of the heatmap overlay with a slider.
+> Please follow the dataset’s license/usage terms on Kaggle.
 
-Select which class you want to see the heatmap for via a dropdown menu.
+---
 
-Error Handling: Gracefully handles invalid or corrupted file uploads.
-
-🛠️ Technology Stack
-Framework: Streamlit
-
-Deep Learning: PyTorch, Torchvision
-
-Model Visualization: TorchCAM
-
-Image Processing: Albumentations, OpenCV, Pillow (PIL)
-
-Data Handling: Pandas, NumPy
-
-⚙️ Setup and Installation (Running Locally)
-To run this application on your local machine, please follow these steps.
-
-1. Prerequisites
-Python 3.9+
-
-Git installed.
-
-Git LFS installed for handling the large model file. Run git lfs install once after installation.
-
-2. Clone the Repository
-Open your terminal and clone this repository:
-
-git clone [https://github.com/your-username/chest-xray-app.git](https://github.com/your-username/chest-xray-app.git)
-cd chest-xray-app
-
-3. Install Dependencies
-Install all the required Python libraries using the requirements.txt file:
-
-pip install -r requirements.txt
-
-4. Add the Model File
-This project requires the pre-trained model file classification_model.pth.
-
-Download the model file from the source (e.g., Google Drive).
-
-Place it in the root directory of this project folder (/chest-xray-app/).
-
-5. Run the Application
-Once the setup is complete, run the following command in your terminal:
-
-streamlit run app.py
-
-Your web browser will open a new tab with the application running locally!
-
-☁️ Deployment
-This application is designed to be deployed on Streamlit Cloud.
-
-Push the project (including app.py, requirements.txt, and the model file using Git LFS) to a public GitHub repository.
-
-Sign up for a free account on Streamlit Cloud using your GitHub account.
-
-From your Streamlit dashboard, click "New app" and select the repository. Streamlit will handle the rest.
-
-⚠️ Disclaimer
-This tool is an academic project and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
-
-📂 Folder Structure
+## 📂 Folder Structure
+```
 /chest-xray-app/
-|
-|-- 📄 app.py                  # The main Streamlit application script
-|-- 🧠 classification_model.pth    # The pre-trained PyTorch model
-|-- 🛒 requirements.txt         # A list of required Python libraries
-|-- 📄 README.md                 # This file
+├─ app.py                      # Streamlit app
+├─ classification_model.pth    # Trained PyTorch weights (use Git LFS or download at runtime)
+├─ requirements.txt            # Python deps
+├─ README.md                   # This file
+
+```
+
+---
+
+## ⚙️ Local Setup
+
+### 1) Prerequisites
+- Python **3.9+**
+- Git & **Git LFS** (`git lfs install`)
+
+### 2) Clone
+```bash
+git clone https://github.com/azeem-aslam-ch/chest-xray-app
+cd chest-xray-app
+```
+
+### 3) Install deps
+```bash
+pip install -r requirements.txt
+```
+
+### 4) Model weights
+Place `classification_model.pth` in the project root.  
+*Alternatively*, set an environment variable `https://drive.google.com/file/d/1LRP3o3TBXXp-_xIPEzLt8dArt1YCcTRs/view?usp=drive_link` to auto-download at startup (see **Cloud Deploy**).
+
+### 5) Run
+```bash
+streamlit run app.py
+```
+
+---
+
+## ☁️ Deploy on Streamlit Community Cloud
+
+1. Push your repo to **GitHub** (include `app.py`, `requirements.txt`, and use **Git LFS** for the model if you commit it).
+2. Go to Streamlit Cloud → **New app** → select your repo/branch → **Main file = `app.py`**.
+3. If you *don’t* commit the model file, set a secret to download it:
+   - In your app → **Settings → Secrets** → add:
+     ```yaml
+     https://drive.google.com/file/d/1LRP3o3TBXXp-_xIPEzLt8dArt1YCcTRs/view?usp=drive_link"
+     ```
+4. In `app.py`, load `MODEL_URL` and download/cache once.
+
+---
+
+## 🖱️ How to Use
+1. Launch the app (locally or Streamlit Cloud).
+2. Upload a chest X-ray (`.png/.jpg`).
+3. View predicted class probabilities and the **Grad-CAM** heatmap next to the original image.
+
+---
+
+## 📊 Evaluation (example)
+- ROC-AUC per class ≈ **0.99–1.00** on the validation set  
+- Include your figures in `assets/` and reference them here:
+
+<p align="center">
+  <a href="RoC.png">
+    <img src="RoC.png" width="700" alt="ROC curve">
+  </a>
+</p>
+
+
+> Validate on a **patient-level** hold-out or external test set. Also check precision-recall, confusion matrix, and calibration.
+
+---
+
+## 🛠️ Tech Stack
+- **Python**, **PyTorch**
+- **Streamlit**
+- **OpenCV**, **Pillow**, **NumPy**
+- **Grad-CAM** utilities
+
+---
+
+## 🔒 Config (optional)
+`.streamlit/config.toml`
+```toml
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+```
+
+---
+
+## 📜 License
+Choose a license (e.g., **MIT**) and place it in `LICENSE`.
+
+---
+
+## 🙏 Acknowledgements
+- COVID-19 Radiography Database (Kaggle)
+- PyTorch & Streamlit communities
+
+---
+
+## 📣 Repo Description (short)
+Streamlit app for classifying chest X-rays (Normal, COVID, Lung Opacity, Viral Pneumonia) with Grad-CAM explanations. Testing build. One-click deploy to Streamlit Cloud.
