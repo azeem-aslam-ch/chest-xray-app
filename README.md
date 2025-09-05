@@ -1,8 +1,11 @@
 # 🩺 Chest X-Ray Diagnostic Assistant (Testing Build)
 
-This is an interactive **Streamlit** app that uses a deep-learning model to classify chest X-ray images and show a **Grad-CAM** heatmap as a visual explanation.
+An interactive **Streamlit** app that uses a deep-learning model to classify chest X-ray images and show **Grad-CAM** heatmaps as visual explanations.
 
-> **Disclaimer:** This app is for **testing and educational** purposes only (OmniDent.ai task). It is **not** a medical device and is **not** a substitute for professional medical advice, diagnosis, or treatment.
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chest-xray-app-mfawfpdbjakjdr7bsotynh.streamlit.app/)  
+**Live demo:** https://chest-xray-app-mfawfpdbjakjdr7bsotynh.streamlit.app/
+
+> **Disclaimer:** For **testing and educational** purposes only (OmniDent.ai task). This is **not** a medical device and **not** a substitute for professional medical advice, diagnosis, or treatment.
 
 ---
 
@@ -35,11 +38,12 @@ This is an interactive **Streamlit** app that uses a deep-learning model to clas
 ## 📂 Folder Structure
 ```
 /chest-xray-app/
-├─ app.py                      # Streamlit app
-├─ classification_model.pth    # Trained PyTorch weights (use Git LFS or download at runtime)
-├─ requirements.txt            # Python deps
-├─ README.md                   # This file
-
+├─ app.py                       # Streamlit app
+├─ classification_model.pth     # Trained PyTorch weights (LFS or runtime download)
+├─ requirements.txt             # Python deps
+├─ assets/
+│   └─ RoC.png                  # Example ROC figure (optional)
+└─ README.md
 ```
 
 ---
@@ -63,7 +67,7 @@ pip install -r requirements.txt
 
 ### 4) Model weights
 Place `classification_model.pth` in the project root.  
-*Alternatively*, set an environment variable `https://drive.google.com/file/d/1LRP3o3TBXXp-_xIPEzLt8dArt1YCcTRs/view?usp=drive_link` to auto-download at startup (see **Cloud Deploy**).
+*Alternatively*, set an environment/secret **`MODEL_URL`** that points to a direct download for the weights (see **Cloud Deploy**).
 
 ### 5) Run
 ```bash
@@ -74,21 +78,33 @@ streamlit run app.py
 
 ## ☁️ Deploy on Streamlit Community Cloud
 
-1. Push your repo to **GitHub** (include `app.py`, `requirements.txt`, and use **Git LFS** for the model if you commit it).
-2. Go to Streamlit Cloud → **New app** → select your repo/branch → **Main file = `app.py`**.
-3. If you *don’t* commit the model file, set a secret to download it:
-   - In your app → **Settings → Secrets** → add:
+1. Push your repo to **GitHub** (include `app.py`, `requirements.txt`, and use **Git LFS** if you commit the model).
+2. On Streamlit Cloud → **New app** → select repo/branch → **Main file = `app.py`**.
+3. If you **don’t** commit the model, add a secret for runtime download:
+   - App → **Settings → Secrets** → add:
      ```yaml
-     https://drive.google.com/file/d/1LRP3o3TBXXp-_xIPEzLt8dArt1YCcTRs/view?usp=drive_link"
+     MODEL_URL: "https://drive.google.com/uc?id=<FILE_ID>&export=download"
      ```
-4. In `app.py`, load `MODEL_URL` and download/cache once.
+4. In `app.py`, load and cache once (example):
+   ```python
+   import os, pathlib, requests, streamlit as st
+   WEIGHTS_PATH = pathlib.Path("classification_model.pth")
+   url = st.secrets.get("MODEL_URL") or os.getenv("MODEL_URL")
+   if url and not WEIGHTS_PATH.exists():
+       with requests.get(url, stream=True) as r:
+           r.raise_for_status()
+           with open(WEIGHTS_PATH, "wb") as f:
+               for chunk in r.iter_content(chunk_size=8192):
+                   if chunk: f.write(chunk)
+   ```
+   > For large Drive files that need confirmation tokens, consider `gdown` or hosting on Hugging Face.
 
 ---
 
 ## 🖱️ How to Use
-1. Launch the app (locally or Streamlit Cloud).
-2. Upload a chest X-ray (`.png/.jpg`).
-3. View predicted class probabilities and the **Grad-CAM** heatmap next to the original image.
+1. Launch the app (locally or on Streamlit Cloud).  
+2. Upload a chest X-ray (`.png/.jpg`).  
+3. See class probabilities and the **Grad-CAM** heatmap beside the original image.
 
 ---
 
@@ -97,11 +113,10 @@ streamlit run app.py
 - Include your figures in `assets/` and reference them here:
 
 <p align="center">
-  <a href="RoC.png">
-    <img src="RoC.png" width="700" alt="ROC curve">
+  <a href="assets/RoC.png">
+    <img src="assets/RoC.png" width="600" alt="ROC curve">
   </a>
 </p>
-
 
 > Validate on a **patient-level** hold-out or external test set. Also check precision-recall, confusion matrix, and calibration.
 
@@ -123,7 +138,6 @@ headless = true
 enableCORS = false
 enableXsrfProtection = true
 ```
-
 ---
 
 ## 📜 License
@@ -138,4 +152,4 @@ Choose a license (e.g., **MIT**) and place it in `LICENSE`.
 ---
 
 ## 📣 Repo Description (short)
-Streamlit app for classifying chest X-rays (Normal, COVID, Lung Opacity, Viral Pneumonia) with Grad-CAM explanations. Testing build. One-click deploy to Streamlit Cloud.
+Streamlit app for classifying chest X-rays (Normal, COVID, Lung Opacity, Viral Pneumonia) with Grad-CAM explanations. Testing build. One-click deploy to Streamlit Cloud. **Live demo:** https://chest-xray-app-mfawfpdbjakjdr7bsotynh.streamlit.app/
