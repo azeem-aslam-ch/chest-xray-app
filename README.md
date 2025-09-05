@@ -113,8 +113,8 @@ streamlit run app.py
 - Include your figures in `assets/` and reference them here:
 
 <p align="center">
-  <a href="assets/RoC.png">
-    <img src="assets/RoC.png" width="600" alt="ROC curve">
+  <a href="RoC.png">
+    <img src="RoC.png" width="600" alt="ROC curve">
   </a>
 </p>
 
